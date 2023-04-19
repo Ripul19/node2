@@ -1,14 +1,17 @@
 const http = require('http');
-const routes = require('./routes');
 
+//ways to write createserver
+//function rqListener(req , res){}  
+// http.createServer(rqListener);
+//http.createServer(function (req, res){});
 
-//const server = http.createServer(routes);
-
-const server = http.createServer(routes.handler);
-console.log(routes.someText);
-
-/*const server = http.createServer(routes.handler);
-console.log(routes.someText); */
+const server = http.createServer((req, res) => {
+    //console.log(req.url, req.method, req.headers);
+   // process.exit(2000);
+   const url = req.url;
+   const method = req.method;
+  
+});
 
 server.listen(3000);
 

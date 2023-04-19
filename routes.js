@@ -1,8 +1,6 @@
 const fs = require('fs');
 
-const requestHandler = (req, res) => {
-    const url = req.url;
-    const method = req.method;
+function requestHandler(req,res)
 if(url ==='/'){
     res.write('<html>');
    res.write('<head><title>Enter Message</title></head>');
@@ -39,18 +37,3 @@ if (url === '/message' && method === 'POST'){
    res.write('<body><h1>Hello from Node.js server!</h1></body>');
    res.write('</html>');
    res.end(); 
-};
-
-
-//module.exports= requestHandler;
-
-exports.handler = requestHandler;
-exports.someText = 'Some Hard Coded Text';
-
-/* module.exports = {
-    handler: requestHandler,
-    someText: 'Some hard coded text'
-};*/
-/* module.exports.andler = requestHandler;
-module.exports.someText = 'Some Hard Coded Text';
- */
