@@ -1,4 +1,7 @@
-const requestHandler = (req,res) =>{
+const http = require('http');
+
+const server = http.createServer((req, res) => {
+    
     const url = req.url;
     const method = req.method;
 
@@ -33,6 +36,7 @@ const requestHandler = (req,res) =>{
     }
 
 
+
     if (url === '/create-user' && method === 'POST'){
         const username = []
         req.on('data', (chunk) => {
@@ -47,9 +51,7 @@ const requestHandler = (req,res) =>{
         res.statusCode = 302;
         res.setHeader('Location','/');
         return res.end();
-    }
+    };
+});
 
-}
-
-
-module.exports = requestHandler;
+server.listen(3000);
