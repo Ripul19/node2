@@ -1,3 +1,6 @@
+const fs = require('fs');
+
+function requestHandler(req,res)
 if(url ==='/'){
     res.write('<html>');
    res.write('<head><title>Enter Message</title></head>');
