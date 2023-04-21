@@ -1,16 +1,30 @@
-const http = require('http');
-const routes = require('./routes');
+const express = require('express');
+
+const app = express();
+
+//function is passing to a funcation which passes commands to the middleware
+// app.use((req, res, next) => {
+//     console.log('In the middleware!');
+//     next();  //next is called to pass it to next middleware in line 
+// });
+
+app.use('/123', (req, res, next) => {
+    console.log('This always runs');
+    next();
+});
+
+app.use('/qwerty', (req, res, next) => {
+    console.log('In the middleware');
+    res.send('<h1> Hello from express1</h1>');
+});
+
+//pass path to the function
+app.use('/', (req, res, next) => {
+    console.log('In the middleware 2!');
+    res.send('<h1> Hello from express</h1>');
+});
+
+//It internally creates the server itself
+app.listen(3000);
 
 
-//const server = http.createServer(routes);
-
-const server = http.createServer(routes.handler);
-console.log(routes.someText);
-
-/*const server = http.createServer(routes.handler);
-console.log(routes.someText); */
-
-server.listen(3000);
-
-//after running the upper code the program was never closed because of "Event Listeners"
-//Program keeps on running as long as there are event listeners registered
