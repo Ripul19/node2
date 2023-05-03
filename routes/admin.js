@@ -3,6 +3,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const rootDir = require('../util/path');
 
+const products = [];
+
 const router = express.Router();
 
 
@@ -15,8 +17,11 @@ router.get('/add-product', (req, res, next) => {
 
 // /admin/add-product with post request
 router.post('/add-product', (req, res, next) => {
-    console.log(JSON.parse(JSON.stringify(req.body)));
+    //console.log(JSON.parse(JSON.stringify(req.body)));
+    products.push({ Firstname: req.body.fname })
     res.redirect('/');
 });
 
-module.exports= router;
+//module.exports= router;
+exports.routes = router;
+exports.products = products;
