@@ -12,16 +12,7 @@ router.use(bodyParser.urlencoded({extended: false}));
 
 // /admin/add-product with get request
 router.get('/add-product', (req, res, next) => {
-    // res.sendFile(path.join(rootDir, 'views', 'add-product.html'));
 
-    //for pug 
-    //res.render('add-product', {pageTitle: 'Add-Product', path: '/admin/add-product'});
-
-    //for handlebars
-    //can add css file name too while sending handlebars, can also pass layout as false to dtop using default layout
-    //res.render('add-product', {pageTitle: 'Add-Product', path: '/admin/add-product', activeProduct: true});
-
-    //for ejs
     res.render('add-product', {pageTitle: 'Add-Product', path: '/admin/add-product'});
 });
 
