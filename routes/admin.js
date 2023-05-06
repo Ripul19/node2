@@ -2,8 +2,8 @@ const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
 const rootDir = require('../util/path');
+const ProductsController = require('../controllers/product')
 
-const products = [];
 
 const router = express.Router();
 
@@ -11,18 +11,10 @@ const router = express.Router();
 router.use(bodyParser.urlencoded({extended: false}));
 
 // /admin/add-product with get request
-router.get('/add-product', (req, res, next) => {
-
-    res.render('add-product', {pageTitle: 'Add-Product', path: '/admin/add-product'});
-});
+router.get('/add-product', ProductsController.getAddProduct);
 
 // /admin/add-product with post request
-router.post('/add-product', (req, res, next) => {
-    //console.log(JSON.parse(JSON.stringify(req.body)));
-    products.push({ Firstname: req.body.fname })
-    res.redirect('/');
-});
+router.post('/add-product', ProductsController.postAddProduct);
 
-//module.exports= router;
-exports.routes = router;
-exports.products = products;
+module.exports= router;
+//exports.routes = router;
