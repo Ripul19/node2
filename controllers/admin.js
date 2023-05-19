@@ -1,5 +1,5 @@
 const Products = require('../models/product');
-const Users = require('../models/user');
+// const Users = require('../models/user');
 
 
 exports.getAddProduct = (req, res, next) => {
@@ -13,27 +13,9 @@ exports.postAddProduct = (req, res, next) => {
     const imageUrl = req.body.imageUrl;
     const description = req.body.description;
     const price = req.body.price;
+    const product = new Products(title, price, description, imageUrl, null, req.user._id);
 
-    //without using sequalize method
-    //const product = new Products(null, title, imageUrl, description, price);
-    // product.save()
-    // .then(() => {
-    //     res.redirect('/products');
-    // })
-    // .catch(err => console.log(err));
-    //Below both ways can we used to create methods
-    req.user.createProduct({
-        title: title,
-        price: price,
-        imageUrl: imageUrl,
-        description: description
-    // Products.create({
-    //     title: title,
-    //     price: price,
-    //     imageUrl: imageUrl,
-    //     description: description,
-    //     userId: req.user.id
-    })
+    product.save()
     .then(result => {
         //console.log(result);
         console.log('Created Product');
@@ -50,10 +32,10 @@ exports.getEditProduct = (req, res, next) => {
          res.redirect('/');
      }
      const prodId = req.params.productId;
-     req.user.getProducts({where: {id: prodId}})
+    //  req.user.getProducts({where: {id: prodId}})
      //Products.findByPk(prodId)
-     .then(products => {
-        const product = products[0];
+     Products.findById(prodId)
+     .then(product => {
         if(!product) {
             return res.redirect('/');
         }
@@ -70,18 +52,14 @@ exports.postEditProduct = (req, res, next) => {
     const updatedImageUrl = req.body.imageUrl;
     const updatedDescription = req.body.description;
     const updatedPrice = req.body.price;
+    const product = new Products(updatedTitle, updatedPrice, updatedDescription, updatedImageUrl, prodId);
 
     // const updatedProduct = new Products(prodId, updatedTitle, updatedImageUrl, updatedDescription, updatedPrice);
     // updatedProduct.save();
     // res.redirect('/products');
 
-    Products.findByPk(prodId).then(product =>{
-        product.title= updatedTitle;
-        product.imageUrl= updatedImageUrl;
-        product.description= updatedDescription;
-        product.price= updatedPrice;
-        return product.save();
-    })
+    // Products.findById(prodId)
+    product.save()
     .then(result => {
         console.log("UPDATED PRODUCT");
         res.redirect('/admin/products');
@@ -93,8 +71,8 @@ exports.postEditProduct = (req, res, next) => {
 
 
 exports.getAdminProducts = (req, res, next) => {
-    req.user.getProducts()
-    //Products.findAll()
+    //req.user.getProducts()
+    Products.fetchAll()
     .then(products => {
         res.render('admin/products', {prods: products, pageTitle: 'Admin Products', path: '/admin/products'} );
     })
@@ -105,10 +83,7 @@ exports.getAdminProducts = (req, res, next) => {
 
 exports.postDeleteProduct = (req, res, next) => {
     const prodId = req.body.productId;
-    Products.findByPk(prodId)
-    .then(product => {
-        return product.destroy();
-    })
+    Products.deleteById(prodId)
     .then(result => {
         console.log('DELETED PRODUCT');
         res.redirect('/admin/products');
