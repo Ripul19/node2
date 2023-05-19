@@ -4,6 +4,7 @@ const MongoClient = mongodb.MongoClient;
 let _db;
 
 const mongoConnect = (callback) =>{
+    //can get the link from mongodb cloud server on the website
     MongoClient.connect('mongodb+srv://admin:tAYaAG5TjA4Drpg9@cluster0.mwsdxjv.mongodb.net/?retryWrites=true&w=majority')
     .then(client => {
         console.log('Connected');
