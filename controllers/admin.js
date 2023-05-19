@@ -13,8 +13,9 @@ exports.postAddProduct = (req, res, next) => {
     const imageUrl = req.body.imageUrl;
     const description = req.body.description;
     const price = req.body.price;
-    const product = new Products(title, price, description, imageUrl, null, req.user._id);
+    const product = new Products({title: title, price: price, description: description, imageUrl: imageUrl});
 
+    //here save method is defined by mongoose but previously we only defined all the methods
     product.save()
     .then(result => {
         //console.log(result);

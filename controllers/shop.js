@@ -2,43 +2,56 @@ const Products = require('../models/product');
 
 
 exports.getIndex = (req, res, next) => {
-    Products.fetchAll()
+    // Products.fetchAll()
+    // .then(products => {
+    //     res.render('shop/index', {prods: products, pageTitle: 'Shop', path: '/'} );
+    // })
+    // .catch(err => {
+    //     console.log(err);
+    //     });
+
+    Products.find()
     .then(products => {
+        console.log(products);
         res.render('shop/index', {prods: products, pageTitle: 'Shop', path: '/'} );
     })
     .catch(err => {
         console.log(err);
         });
+
 };
 
 
 exports.getProducts = (req, res, next) => {
-    Products.fetchAll()
+    // Products.fetchAll()
+    // .then(products => {
+    //     res.render('shop/product-list', {prods: products, pageTitle: 'All Products', path: '/products'} );
+    // })
+    // .catch(err => console.log(err));
+
+    Products.find()
     .then(products => {
         res.render('shop/product-list', {prods: products, pageTitle: 'All Products', path: '/products'} );
     })
     .catch(err => console.log(err));
-    // console.log('shop.js' , adminRoutes.products);
-    // res.sendFile(path.join(rootDir, 'views','shop.html'))
-   // const products = ProductsController.products;
    
 };
 
 exports.getProductDetails = (req, res, next) => {
     const productId = req.params.productId;
+    // Products.findById(productId)
+    // .then(product => {
+    //     res.render('shop/product-detail', {pageTitle:product.title, products:product, path: '/products'});
+    // })
+    // .catch(err => console.log(err));
+
+    //mongoose also has findById method and it automatically converts the string to object as required
     Products.findById(productId)
     .then(product => {
+        console.log(product);
         res.render('shop/product-detail', {pageTitle:product.title, products:product, path: '/products'});
     })
     .catch(err => console.log(err));
-    //or we can use find all method
-    // Products.findAll({where: {id: productId}})
-    // .then(product => {
-    //     res.render('shop/product-detail', {pageTitle:product[0].title, products:product[0], path: '/products'});
-    // })
-    // .catch(err => {
-    //     console.log(err);
-    // }); 
 }
 
 exports.getCart = (req, res, next) => {
