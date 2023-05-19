@@ -11,7 +11,7 @@ module.exports = pool.promise(); */
 
 const Sequelize = require('sequelize');
 
-const sequelize = new Sequelize('node-complete', 'root', 'Khurana1222@', {
+const sequelize = new Sequelize('node-complete', 'root', 'pass', {
     host: 'localhost',
     dialect: 'mysql'
 });
