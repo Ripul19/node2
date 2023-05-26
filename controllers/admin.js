@@ -13,7 +13,13 @@ exports.postAddProduct = (req, res, next) => {
     const imageUrl = req.body.imageUrl;
     const description = req.body.description;
     const price = req.body.price;
-    const product = new Products({title: title, price: price, description: description, imageUrl: imageUrl});
+    const product = new Products({
+        title: title, 
+        price: price, 
+        description: description, 
+        imageUrl: imageUrl,
+        userId: req.user
+    });
 
     //here save method is defined by mongoose but previously we only defined all the methods
     product.save()
@@ -53,14 +59,22 @@ exports.postEditProduct = (req, res, next) => {
     const updatedImageUrl = req.body.imageUrl;
     const updatedDescription = req.body.description;
     const updatedPrice = req.body.price;
-    const product = new Products(updatedTitle, updatedPrice, updatedDescription, updatedImageUrl, prodId);
+    //const product = new Products(updatedTitle, updatedPrice, updatedDescription, updatedImageUrl, prodId);
 
     // const updatedProduct = new Products(prodId, updatedTitle, updatedImageUrl, updatedDescription, updatedPrice);
     // updatedProduct.save();
     // res.redirect('/products');
 
     // Products.findById(prodId)
-    product.save()
+    //product.save()
+    Products.findById(prodId)
+    .then(product => {
+        product.title = updatedTitle;
+        product.price = updatedPrice;
+        product.description = updatedDescription;
+        product.imageUrl = updatedImageUrl;
+        return product.save();
+    })
     .then(result => {
         console.log("UPDATED PRODUCT");
         res.redirect('/admin/products');
@@ -73,8 +87,11 @@ exports.postEditProduct = (req, res, next) => {
 
 exports.getAdminProducts = (req, res, next) => {
     //req.user.getProducts()
-    Products.fetchAll()
+    Products.find()
+    // .select('title price -_id')   //fields which you want like title and price and _id will be excluded 
+    // .populate('userId' 'name')  //same for this userId is populated with name
     .then(products => {
+        console.log(products);
         res.render('admin/products', {prods: products, pageTitle: 'Admin Products', path: '/admin/products'} );
     })
     .catch(err =>{
@@ -84,7 +101,8 @@ exports.getAdminProducts = (req, res, next) => {
 
 exports.postDeleteProduct = (req, res, next) => {
     const prodId = req.body.productId;
-    Products.deleteById(prodId)
+    //Products.deleteById(prodId)
+    Products.findByIdAndRemove(prodId)
     .then(result => {
         console.log('DELETED PRODUCT');
         res.redirect('/admin/products');
