@@ -207,9 +207,10 @@ form {
 }
 
 .product-form {
-  width: 30rem;
+  width: 20rem;
   max-width: 90%;
   margin: auto;
+  display: block;
 }
 
 .form-control {
@@ -303,4 +304,11 @@ button:active{
   margin-right: 1rem;
   font-size: 1.2rem;
   margin: 0;
+}
+
+.login-form{
+  width: 20rem;
+  max-width: 90%;
+  margin: auto;
+  display: block;
 }
