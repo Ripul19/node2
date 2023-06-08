@@ -7,7 +7,7 @@ const User = require('../models/user');
 
 const transporter = nodemailer.createTransport(sendgridTransport({
     auth: {
-        api_key: '<api key>'
+        api_key: '<apikey>'
     }
 }));
 
@@ -42,9 +42,10 @@ exports.postLogin = (req, res, next) => {
                     res.redirect('/');
                 });
             }else {
-                return req.flash('error', 'Invalid email or password');
+                req.flash('error', 'Invalid email or password');
+                return res.redirect('/login');
             }
-            res.redirect('/login');
+            
         })
         .catch(err => {
             console.log(err);
